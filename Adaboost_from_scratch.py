@@ -3,6 +3,7 @@ import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
 
+
 # Compute error rate, alpha and w
 def compute_error(y, y_pred, w_i):
     return (sum(w_i * (np.not_equal(y, y_pred)).astype(int)))/sum(w_i)
