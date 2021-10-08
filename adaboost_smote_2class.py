@@ -10,6 +10,9 @@ from sklearn.datasets import make_classification
 import random
 
 
+
+
+#test
 #adboost
 
 # Compute error rate, alpha and w
