@@ -3,6 +3,7 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 import random
 
+
 filepath="/Users/colin/Desktop/abalone.data"
 df=pd.read_csv(filepath,header=None)
 df.columns = [ 'Sex', 'Length', 'Diameter','Height','Whole weight','Shucked weight','Viscera weight','Shell weight','Rings']
