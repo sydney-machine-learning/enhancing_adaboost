@@ -1,4 +1,3 @@
-from numpy.core.fromnumeric import shape
 from sklearn.tree import DecisionTreeClassifier
 import numpy as np
 import pandas as pd

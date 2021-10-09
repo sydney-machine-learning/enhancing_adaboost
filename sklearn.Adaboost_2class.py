@@ -1,5 +1,4 @@
 from sklearn.ensemble import AdaBoostClassifier
-import pandas as pd
 from data_processing import load_data
 
 X_train, X_test, y_train, y_test = load_data('abalone_2class',test_size=0.2, random_state=0)
