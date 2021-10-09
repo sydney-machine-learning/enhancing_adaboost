@@ -1,7 +1,6 @@
 from sklearn.tree import DecisionTreeClassifier
 import numpy as np
 import pandas as pd
-from sklearn.model_selection import train_test_split
 
 
 # Compute error rate, alpha and w
@@ -76,28 +75,3 @@ class AdaBoost:
 
         return y_pred
         
-
-# Dataset
-filepath="data/iris_binaryenc.csv"
-df=pd.read_csv(filepath,header=None)
-
-X = df.iloc[:, 0:4]
-
-df['y']=[ 0 for i in range(150)]
-for i in range(50):
-    df.iloc[i,5]= -1
-for i in range(50,150):
-    df.iloc[i,5]= 1
-y = df['y']
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.5, random_state=0)
-
-
-# Fit model
-ab = AdaBoost()
-ab.fit(X_train, y_train, M = 30)
-
-# Predict on test set
-y_pred = ab.predict(X_test)
-train_err = (y_pred != y_test.reset_index(drop=True)).mean()
-print(f'Train error: {train_err:.1%}')

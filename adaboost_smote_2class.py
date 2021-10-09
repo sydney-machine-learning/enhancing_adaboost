@@ -2,17 +2,10 @@ from numpy.core.fromnumeric import shape
 from sklearn.tree import DecisionTreeClassifier
 import numpy as np
 import pandas as pd
-from sklearn.model_selection import train_test_split
 from imblearn.over_sampling import BorderlineSMOTE, KMeansSMOTE, SVMSMOTE
 from imblearn.over_sampling import SMOTE
-from imblearn.pipeline import make_pipeline
-from sklearn.datasets import make_classification
-import random
+from data_processing import load_data
 
-
-
-
-#adboost
 
 # Compute error rate, alpha and w
 def compute_error(y, y_pred, w_i):
@@ -26,6 +19,8 @@ def update_weights(w_i, alpha, y, y_pred):
     new_sample_weights /= new_sample_weights.sum()
     return new_sample_weights
 
+#adboost
+
 # Define AdaBoost class
 class AdaBoost:
     
@@ -35,6 +30,7 @@ class AdaBoost:
         self.M = None
         self.training_errors = []
         self.prediction_errors = []
+
 
     def fit(self, X, y, M):
         '''
@@ -92,37 +88,10 @@ class AdaBoost:
         y_pred = (1 * np.sign(weak_preds.T.sum())).astype(int)
 
         return y_pred
+
+X_train, X_test, y_train, y_test = load_data('abalone_2class',test_size=0.2, random_state=0)
         
 
-# Dataset
-filepath="data/abalone.data"
-df=pd.read_csv(filepath,header=None)
-df.columns = [ 'Sex', 'Length', 'Diameter','Height','Whole weight','Shucked weight','Viscera weight','Shell weight','Rings']
-df = df.replace('M',0)
-df = df.replace('F',1)
-df = df.replace('I',-1)
-
-df['Categories'] = pd.cut(df['Rings'], bins = [-1,9,1000], labels=[-1,1])
-
-n = 2000
-posN= int(n*0.8)
-negN= int(n*0.2)
-
-random.seed(1)
-pos_index = random.sample(list(df.query('Categories == 1').index),posN)
-
-neg_index = random.sample(list(df.query('Categories == -1').index),negN)
-samples_index = pos_index + neg_index
-data = df.iloc[samples_index]
-X = data.iloc[:, 0:7]
-y = data['Categories']
-
-# print(data)
-
-# print(y.value_counts())
-
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0,stratify=y)
 
 
 # Fit model
