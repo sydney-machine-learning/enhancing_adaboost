@@ -49,7 +49,7 @@ class AdaBoost:
             # sampler = BorderlineSMOTE(random_state= m, kind="borderline-1")
             # sampler = KMeansSMOTE(random_state= m)
             # sampler = SVMSMOTE(random_state= m)
-            X, y = sampler.fit_resample(X, y)
+            # X, y = sampler.fit_resample(X, y)
             
             # (a) Fit weak classifier and predict labels
             G_m = DecisionTreeClassifier(max_depth = 1)     # Stump: Two terminal-node classification tree
@@ -98,7 +98,7 @@ class AdaBoost:
 
 
 # Dataset
-filepath="/Users/colin/Desktop/abalone.data"
+filepath="data/abalone.data"
 df=pd.read_csv(filepath,header=None)
 df.columns = [ 'Sex', 'Length', 'Diameter','Height','Whole weight','Shucked weight','Viscera weight','Shell weight','Rings']
 df = df.replace('M',0)

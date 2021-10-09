@@ -78,7 +78,7 @@ class AdaBoost:
         
 
 # Dataset
-filepath="/Users/colin/Downloads/iris_binaryenc.csv"
+filepath="data/iris_binaryenc.csv"
 df=pd.read_csv(filepath,header=None)
 
 X = df.iloc[:, 0:4]

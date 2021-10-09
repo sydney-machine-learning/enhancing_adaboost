@@ -95,7 +95,7 @@ class AdaBoost:
         
 
 # Dataset
-filepath="/Users/colin/Desktop/abalone.data"
+filepath="data/abalone.data"
 df=pd.read_csv(filepath,header=None)
 df.columns = [ 'Sex', 'Length', 'Diameter','Height','Whole weight','Shucked weight','Viscera weight','Shell weight','Rings']
 df = df.replace('M',0)
