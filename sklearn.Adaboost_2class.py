@@ -1,3 +1,8 @@
+# Revived the following when I ran this:
+# 441: UserWarning: X does not have valid feature names, but AdaBoostClassifier # was fitted with feature names
+#
+#
+
 from sklearn.ensemble import AdaBoostClassifier
 from data_processing import load_data
 

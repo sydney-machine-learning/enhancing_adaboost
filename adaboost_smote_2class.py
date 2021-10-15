@@ -55,7 +55,7 @@ class AdaBoost:
             else:
                 # (d) Update w_i
                 w_i = update_weights(w_i, alpha_m, y, y_pred)
-            
+            # need to update X here I think make a copy of X and calle smote on the copy of             # X here 
             # (a) Fit weak classifier and predict labels
             G_m = DecisionTreeClassifier(max_depth = 1)     # Stump: Two terminal-node classification tree
             G_m.fit(X, y, sample_weight = w_i)
