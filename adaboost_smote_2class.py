@@ -43,28 +43,45 @@ class AdaBoost:
 
         # Iterate over M weak classifiers
         for m in range(0, M):
-            # sampler = SMOTE(random_state= m)
-            # sampler = BorderlineSMOTE(random_state= m, kind="borderline-1")
-            # sampler = KMeansSMOTE(random_state= m)
-            # sampler = SVMSMOTE(random_state= m)
-            # X, y = sampler.fit_resample(X, y)
-
+            
             # Set weights for current boosting iteration
             if m == 0:
-                w_i = np.ones(len(y)) * 1 / len(y)  # At m = 0, weights are all the same and equal to 1 / N
+
+                # weight shape need to be adopted with x,y after smote 
+                X_s = X.copy()
+                # sampler = SMOTE(random_state= m)
+                # sampler = BorderlineSMOTE(random_state= m, kind="borderline-1")
+                # sampler = KMeansSMOTE(random_state= m)
+                sampler = SVMSMOTE(random_state= m)
+                X_s, y_s = sampler.fit_resample(X_s, y)
+                w_i = np.ones(len(y_s)) * 1 / len(y_s)  # At m = 0, weights are all the same and equal to 1 / N
             else:
                 # (d) Update w_i
-                w_i = update_weights(w_i, alpha_m, y, y_pred)
-            # need to update X here I think make a copy of X and calle smote on the copy of             # X here 
+                w_i = update_weights(w_i, alpha_m, y_s, y_pred)
+
+                # need to update X here I think make a copy of X and calle smote on the copy of             # X here 
+                X_s = X.copy()
+                # sampler = SMOTE(random_state= m)
+                # sampler = BorderlineSMOTE(random_state= m, kind="borderline-1")
+                # sampler = KMeansSMOTE(random_state= m)
+                sampler = SVMSMOTE(random_state= m)
+                X_s, y_s = sampler.fit_resample(X_s, y)
+                # print(X_s.shape)
+
+                # print(X.shape)
+                # print(y.shape)
+                # print(w_i.shape)
+
+
             # (a) Fit weak classifier and predict labels
             G_m = DecisionTreeClassifier(max_depth = 1)     # Stump: Two terminal-node classification tree
-            G_m.fit(X, y, sample_weight = w_i)
-            y_pred = G_m.predict(X)
+            G_m.fit(X_s, y_s, sample_weight = w_i)
+            y_pred = G_m.predict(X_s)
             
             self.G_M.append(G_m) # Save to list of weak classifiers
 
             # (b) Compute error
-            error_m = compute_error(y, y_pred, w_i)
+            error_m = compute_error(y_s, y_pred, w_i)
             self.training_errors.append(error_m)
 
             # (c) Compute alpha
