@@ -1,3 +1,4 @@
+from Data_Processing import load_data
 from sklearn.tree import DecisionTreeClassifier
 import numpy as np
 import pandas as pd
@@ -45,11 +46,7 @@ class AdaBoost:
         w_i = np.ones(len(y)) * 1 / len(y)  # At m = 0, weights are all the same and equal to 1 / N 
         # Iterate over M weak classifiers
         for m in range(0, M):
-            # sampler = SMOTE(random_state= m)
-            # sampler = BorderlineSMOTE(random_state= m, kind="borderline-1")
-            # sampler = KMeansSMOTE(random_state= m)
-            # sampler = SVMSMOTE(random_state= m)
-            # X, y = sampler.fit_resample(X, y)
+ 
             
             # (a) Fit weak classifier and predict labels
             G_m = DecisionTreeClassifier(max_depth = 1)     # Stump: Two terminal-node classification tree
@@ -67,8 +64,7 @@ class AdaBoost:
             self.alphas.append(alpha_m)
             
             # (d) Update w_i
-            w_i = self.update_weights(w_i, alpha_m, y, y_pred)  # 更新样本权重
-
+            w_i = self.update_weights(w_i, alpha_m, y, y_pred)  
         assert len(self.G_M) == len(self.alphas)
 
     def predict(self, X):
@@ -94,31 +90,14 @@ class AdaBoost:
         return y_pred
 
 
-
-
-
-# Dataset
-filepath="data/abalone.data"
-df=pd.read_csv(filepath,header=None)
-df.columns = [ 'Sex', 'Length', 'Diameter','Height','Whole weight','Shucked weight','Viscera weight','Shell weight','Rings']
-df = df.replace('M',0)
-df = df.replace('F',1)
-df = df.replace('I',-1)
-
-X = df.iloc[:, 0:7]
-
-df['Categories'] = pd.cut(df['Rings'], bins = [-1,7,10, 15,1000], labels=[1,2,3,4])
-y = df['Categories']
-# print(y.value_counts())
-
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.5, random_state=0)
+X_train, X_test, y_train, y_test = load_data('abalone', test_size=0.2, random_state=1)
 
 
 # Fit model
 ab = AdaBoost()
-ab.fit(X_train, y_train, M = 30,K=4,learning_rate=1)
+ab.fit(X_train, y_train, M = 30, K=4, learning_rate=1)
 
 # Predict on test set
 y_pred = ab.predict(X_test)
-train_err = (y_pred != y_test.reset_index(drop=True)).mean()
+train_err = (y_pred != y_test).mean()
 print(f'Train error: {train_err:.1%}')
