@@ -1,5 +1,4 @@
 from collections import Counter
-from numpy.core.arrayprint import _object_format
 import pandas as pd
 from sklearn.model_selection import train_test_split
 import random
