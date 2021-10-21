@@ -5,6 +5,7 @@ import random
 from sklearn.preprocessing import OneHotEncoder
 import numpy as np
 
+
 def load_data(dataset_name, test_size=0.2, random_state=0):
     if dataset_name == 'abalone_2class':
         filepath="data/abalone.data"
