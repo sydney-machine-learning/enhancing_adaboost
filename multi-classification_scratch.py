@@ -6,6 +6,7 @@ from sklearn.model_selection import train_test_split
 from imblearn.over_sampling import BorderlineSMOTE, KMeansSMOTE, SVMSMOTE
 from imblearn.over_sampling import SMOTE
 
+
 # Define AdaBoost class
 class AdaBoost:
     
