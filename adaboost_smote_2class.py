@@ -3,7 +3,7 @@ import numpy as np
 import pandas as pd
 from imblearn.over_sampling import BorderlineSMOTE, KMeansSMOTE, SVMSMOTE
 from imblearn.over_sampling import SMOTE
-from data_processing import load_data
+from Data_Processing import load_data
 
 
 # Compute error rate, alpha and w
@@ -49,10 +49,10 @@ class AdaBoost:
 
                 # weight shape need to be adopted with x,y after smote 
                 X_s = X.copy()
-                # sampler = SMOTE(random_state= m)
+                sampler = SMOTE(random_state= m)
                 # sampler = BorderlineSMOTE(random_state= m, kind="borderline-1")
                 # sampler = KMeansSMOTE(random_state= m)
-                sampler = SVMSMOTE(random_state= m)
+                # sampler = SVMSMOTE(random_state= m)
                 X_s, y_s = sampler.fit_resample(X_s, y)
                 w_i = np.ones(len(y_s)) * 1 / len(y_s)  # At m = 0, weights are all the same and equal to 1 / N
             else:
@@ -61,10 +61,10 @@ class AdaBoost:
 
                 # need to update X here I think make a copy of X and calle smote on the copy of             # X here 
                 X_s = X.copy()
-                # sampler = SMOTE(random_state= m)
+                sampler = SMOTE(random_state= m)
                 # sampler = BorderlineSMOTE(random_state= m, kind="borderline-1")
                 # sampler = KMeansSMOTE(random_state= m)
-                sampler = SVMSMOTE(random_state= m)
+                # sampler = SVMSMOTE(random_state= m)
                 X_s, y_s = sampler.fit_resample(X_s, y)
                 # print(X_s.shape)
 
@@ -117,6 +117,6 @@ ab.fit(X_train, y_train, M = 30)
 # Predict on test set
 y_pred = ab.predict(X_test)
 
-train_err = (y_pred != y_test.reset_index(drop=True)).mean()
+train_err = (y_pred != y_test).mean()
 
 print(f'Train error: {train_err:.1%}')

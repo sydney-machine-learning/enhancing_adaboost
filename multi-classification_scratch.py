@@ -90,12 +90,12 @@ class AdaBoost:
         return y_pred
 
 
-X_train, X_test, y_train, y_test = load_data('abalone', test_size=0.2, random_state=1)
+X_train, X_test, y_train, y_test = load_data('red_wine', test_size=0.2, random_state=0)
 
 
 # Fit model
 ab = AdaBoost()
-ab.fit(X_train, y_train, M = 30, K=4, learning_rate=1)
+ab.fit(X_train, y_train, M = 30, K=2, learning_rate=1)
 
 # Predict on test set
 y_pred = ab.predict(X_test)
